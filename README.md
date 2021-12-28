@@ -1,6 +1,6 @@
 # SwfitCryptography
 
-This repository serves to implement cryptograchy concepts for educational purposes using the Swfit programming language.
+This repository serves to implement cryptography concepts for educational/learning purposes using the Swfit programming language.
 
 # Acronyms
 
