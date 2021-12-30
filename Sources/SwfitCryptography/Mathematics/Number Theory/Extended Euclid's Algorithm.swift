@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import BigInt
 
 public extension NumberTheory {
     /**
@@ -23,13 +24,13 @@ public extension NumberTheory {
      # Reference: [Introduction to Public-Key Cryptography](https://www.youtube.com/watch?v=TCwciYgO6zI&t=3387s)
      */
     struct ExtendedEuclidsAlgorithm {
-        public typealias Output = (gcd: Int, x: Int, y: Int)
+        public typealias Output = (gcd: BigInt, x: BigInt, y: BigInt)
         typealias GCDParameters = NumberTheory.GCDParameters
         
-        let a: Int
-        let b: Int
+        let a: BigInt
+        let b: BigInt
         
-        public init(_ input1: Int, _ input2: Int) {
+        public init(_ input1: BigInt, _ input2: BigInt) {
             let gcdParamters = GCDParameters(input1, input2)
             self.a = gcdParamters.largerInput
             self.b = gcdParamters.smallerInput
@@ -38,6 +39,12 @@ public extension NumberTheory {
         public func evaludate() -> Output {
             evaludateRecursively(aIteration: a, bIteration: b)
         }
+    }
+}
+
+public extension NumberTheory.ExtendedEuclidsAlgorithm {
+    init(_ input1: Int, _ input2: Int) {
+        self.init(BigInt(input1), BigInt(input2))
     }
 }
 
@@ -179,7 +186,7 @@ extension NumberTheory.ExtendedEuclidsAlgorithm {
      ```
      - Author: 👨🏾‍💻 [ranveerm](https://ranveerm.com/about)
      */
-    private func evaludateRecursively(aIteration: Int, bIteration: Int,
+    private func evaludateRecursively(aIteration: BigInt, bIteration: BigInt,
                                       diophantineCoefficients: DiophantineCoefficients? = nil,
                                       previousDiophantineCoefficients: DiophantineCoefficients? = nil) -> Output {
         /// Special case- one of the inputs is `0`
@@ -280,7 +287,7 @@ extension NumberTheory.ExtendedEuclidsAlgorithm {
      Coefficients for the equation `c = a * x + b * y`
      */
     private struct DiophantineCoefficients {
-        let x: Int
-        let y: Int
+        let x: BigInt
+        let y: BigInt
     }
 }

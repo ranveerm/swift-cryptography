@@ -7,6 +7,7 @@
 
 import XCTest
 import SwfitCryptography
+import BigInt
 
 class Euclid_s_Algorithms_Tests: XCTestCase {
     let inputs = [
@@ -30,6 +31,6 @@ class Euclid_s_Algorithms_Tests: XCTestCase {
         let computedOutputs = inputs.map { NumberTheory.euclidsAlgorithm($0.0, $0.1) }
         
         /// Then
-        zip(expectedOutputs, computedOutputs).forEach { XCTAssertEqual($0, $1) }
+        zip(expectedOutputs, computedOutputs).forEach { XCTAssertEqual(BigInt($0), $1) }
     }
 }
