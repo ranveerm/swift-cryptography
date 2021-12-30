@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import BigInt
 
 public extension NumberTheory {
     /**
@@ -124,7 +125,7 @@ public extension NumberTheory {
      - Author: 👨🏾‍💻 [ranveerm](https://ranveerm.com/about)
      # Reference: [Introduction to Public-Key Cryptography](https://www.youtube.com/watch?v=TCwciYgO6zI&t=3387s)
      */
-    static func euclidsAlgorithm(_ a: Int, _ b: Int) -> Int {
+    static func euclidsAlgorithm(_ a: BigInt, _ b: BigInt) -> BigInt {
         /// Special Case 1- GCD(a, a)
         if a == b { return a }
         
@@ -136,6 +137,8 @@ public extension NumberTheory {
         /// GCD(b, a % b)
         return euclidsAlgorithm(gcdParameters.smallerInput, gcdParameters.remainder)
     }
+    
+    static func euclidsAlgorithm(_ a: Int, _ b: Int) -> BigInt { euclidsAlgorithm(BigInt(a), BigInt(b)) }
 }
 
 // MARK: Nested Types
@@ -149,20 +152,21 @@ extension NumberTheory {
      - Author: 👨🏾‍💻 [ranveerm](https://ranveerm.com/about)
      */
     struct GCDParameters {
-        let largerInput: Int
-        let smallerInput: Int
+        let largerInput: BigInt
+        let smallerInput: BigInt
         
-        init(_ input1: Int, _ input2: Int) {
-            if input1 == input2 {
-                self.largerInput = input1
-                self.smallerInput = input2
-            } else {
-                self.largerInput = input1 > input2 ? input1 : input2
-                self.smallerInput = largerInput == input1 ? input2 : input1
-            }
+        init(_ input1: BigInt, _ input2: BigInt) {
+            self.largerInput = input1 >= input2 ? input1 : input2
+            self.smallerInput = largerInput == input1 ? input2 : input1
         }
         
-        var dividend: Int { largerInput / smallerInput }
-        var remainder: Int { largerInput % smallerInput }
+        var dividend: BigInt { largerInput / smallerInput }
+        var remainder: BigInt { largerInput % smallerInput }
+    }
+}
+
+extension NumberTheory.GCDParameters {
+    init(_ input1: Int, _ input2: Int) {
+        self.init(BigInt(input1), BigInt(input2))
     }
 }

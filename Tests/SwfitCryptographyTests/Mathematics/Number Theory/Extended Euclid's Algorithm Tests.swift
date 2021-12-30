@@ -7,6 +7,7 @@
 
 import XCTest
 import SwfitCryptography
+import BigInt
 
 class Extended_Euclid_s_Algorithm_Tests: XCTestCase {
     let inputs: [(a: Int, b: Int)] = [
@@ -31,15 +32,15 @@ class Extended_Euclid_s_Algorithm_Tests: XCTestCase {
         /// Then
         /// Expected output comparison
         zip(expectedOutputs, computedOutputs).forEach {
-            XCTAssertEqual($0.0, $1.0)
-            XCTAssertEqual($0.1, $1.1)
-            XCTAssertEqual($0.2, $1.2)
+            XCTAssertEqual(BigInt($0.0), $1.0)
+            XCTAssertEqual(BigInt($0.1), $1.1)
+            XCTAssertEqual(BigInt($0.2), $1.2)
         }
         
         /// Bézout's Identity verification
         zip(inputs, computedOutputs).forEach { input, computedOutput in
-            let a = input.a
-            let b = input.b
+            let a = BigInt(input.a)
+            let b = BigInt(input.b)
             
             let gcd = computedOutput.gcd
             let x = computedOutput.x

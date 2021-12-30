@@ -7,6 +7,7 @@
 
 import XCTest
 import SwfitCryptography
+import BigInt
 
 class Modular_Multiplicative_Inverse_T: XCTestCase {
     func test_error() throws {
@@ -31,13 +32,13 @@ class Modular_Multiplicative_Inverse_T: XCTestCase {
         /// Given
         let b = 3
         let base = 20
-        let expectedModuloInverse = 7
+        let expectedModuloInverse = BigInt(7)
         
         /// When
         let computedModuloInverse = try b.multiplicativeInverse(modulo: base)
         
         /// Then
         XCTAssertEqual(expectedModuloInverse, computedModuloInverse)
-        XCTAssertEqual((b * expectedModuloInverse) % base, 1)
+        XCTAssertEqual((BigInt(b) * expectedModuloInverse) % BigInt(base), 1)
     }
 }
