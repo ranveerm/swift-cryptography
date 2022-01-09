@@ -38,7 +38,7 @@ public extension NumberTheory {
      ```
      - Author: 👨🏾‍💻 [ranveerm](https://ranveerm.com/about)
      */
-    func multipleRemainder(for argument: Int, modBase: Int) {
+    static func multipleRemainder(for argument: Int, modBase: Int) {
         guard modBase > 1 && argument > 2 else { return }
         
         let modBaseRemainders = 1..<modBase
@@ -62,10 +62,67 @@ public extension NumberTheory {
             print(String(repeating: "\t", count: remainder) + String(remainder))
         }
     }
+    
+    /**
+     Print `k mod p` and `k mod q` for `k` over `[0, p*q]`  (where inputs `p` and `q` are coprime).
+     
+     ```
+                mod 17        0    1     2     3     4     5     6     7     8     9     10    11    12    13    14    15    16
+        mod 3
+
+
+        0                     0    18    36    3     21    39    6     24    42    9     27    45    12    30    48    15    33
+
+        1                     34   1     19    37    4     22    40    7     25    43    10    28    46    13    31    49    16
+
+        2                     17   35    2     20    38    5     23    41    8     26    44    11    29    47    14    32    50
+
+     ```
+     # Reference: [More words about PWW #25: The Chinese Remainder Theorem](https://mathlesstraveled.com/2019/04/05/more-words-about-pww-25-the-chinese-remainder-theorem/)
+     - Author: 👨🏾‍💻 [ranveerm](https://ranveerm.com/about)
+     */
+    static func moduloGrid(_ input1: Int, input2: Int) {
+        guard input1 > 2 && input2 > 2,
+              euclidsAlgorithm(input1, input1) == 1 else { return }
+        
+        let finalValue = input1 * input2 - 1
+        
+        let input1Label = inputlabel(input1)
+        let input1Remainders = 0..<input1
+        let input2Label = inputlabel(input2)
+        let input2Remainders = 0..<input2
+        
+        print(Array(input1Remainders).reduce("\t\t" + input1Label + "\t") { return $0 + "\t\($1)" })
+        print(input2Label)
+        print("\n")
+        
+        /// `input2` remainders are the primary key because the main loop interates over `input2` (as printed output occur over a horizontal line)
+        var remainderGrid = [Int: [Int: Int]]()
+        
+        for number in 0...finalValue {
+            let input1Remainder = number % input1
+            let input2Remainder = number % input2
+            
+            if remainderGrid[input2Remainder] == nil {
+                remainderGrid[input2Remainder] = [:]
+            }
+            remainderGrid[input2Remainder]?[input1Remainder] = number
+        }
+        
+        for input2Remainder in input2Remainders {
+            print(input2Remainder, terminator: "\t\t\t\t\t")
+            
+            for input1Remainder in input1Remainders {
+                print(remainderGrid[input2Remainder]?[input1Remainder] ?? "", terminator: "\t")
+            }
+            
+            print("\n")
+        }
+    }
 }
 
 fileprivate extension NumberTheory {
-    func inputlabel(_ input: Int) -> String {
+    static func inputlabel(_ input: Int) -> String {
         "mod \(input)"
     }
 }
